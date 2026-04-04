@@ -45,6 +45,29 @@ Staging:
 
 - `<DEPLOY_PATH>/backend/app/static`
 
+## Recommended values
+
+Текущая рабочая схема совпадает с backend deploy.
+
+Production:
+
+- `DEPLOY_HOST=api.wobbly.site`
+- `DEPLOY_USER=root`
+- `DEPLOY_PATH=/opt/rating-service`
+- `DEPLOY_OWNER=ratingapp:ratingapp`
+- `DEPLOY_STATIC_PATH=/opt/rating-service/backend/app/static`
+- `DEPLOY_SSH_KEY` — скопировать один в один из backend repo secret `DEPLOY_SSH_KEY`
+
+Staging:
+
+- `STAGING_DEPLOY_HOST=api.wobbly.site`
+- `STAGING_DEPLOY_USER=root`
+- `STAGING_DEPLOY_PATH=/opt/rating-service-staging`
+- `STAGING_DEPLOY_OWNER=ratingapp:ratingapp`
+- `STAGING_DEPLOY_STATIC_PATH=/opt/rating-service-staging/backend/app/static`
+- `STAGING_DEPLOY_SSH_KEY` — скопировать один в один из backend repo secret `STAGING_DEPLOY_SSH_KEY`
+- `STAGING_ACCESS_KEY` — скопировать один в один из backend repo secret `STAGING_ACCESS_KEY`
+
 ## Smoke checks
 
 Production:
