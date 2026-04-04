@@ -89,6 +89,14 @@ Nginx должен:
 - `admin.wobbly.site/staging/` раздавать из staging frontend dir
 - API-запросы проксировать в backend
 
+Эта схема уже применена на live server.
+
+Важно:
+
+- frontend deploy не трогает backend service
+- backend deploy не должен трогать frontend dirs
+- если после deploy браузер продолжает показывать старый HTML или `Welcome to nginx!`, сначала сделать hard reload или открыть страницу в incognito: disk cache может держать старую SPA-оболочку
+
 ## Smoke checks
 
 Production:

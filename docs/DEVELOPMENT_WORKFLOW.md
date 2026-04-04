@@ -45,6 +45,11 @@
 2. влить в `main`
 3. дождаться production workflow
 
+Deploy flow after repo split:
+
+- `front` выкатывает только frontend bundle и не трогает backend service
+- `back` выкатывает только backend code и не трогает frontend dirs
+
 ## Границы репозитория
 
 Здесь живут:

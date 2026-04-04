@@ -47,6 +47,9 @@ npm run build
 - frontend на сервере живет отдельно от backend
 - production frontend и staging frontend имеют свои собственные каталоги
 - nginx раздает frontend как static app, а backend отвечает только за API
+- live server уже использует эту схему:
+  - production frontend: `/opt/wobbly-front-production/current`
+  - staging frontend: `/opt/wobbly-front-staging/current`
 
 ## Как разрабатывать локально
 
@@ -76,6 +79,17 @@ npm run build
 
 - `develop` -> staging frontend deploy
 - `main` -> production frontend deploy
+
+Production surfaces:
+
+- `https://wobbly.site`
+- `https://api.wobbly.site/api/docs`
+- `https://admin.wobbly.site/production/`
+
+Staging surfaces:
+
+- `https://staging-api.wobbly.site/api/docs`
+- `https://admin.wobbly.site/staging/`
 
 Подробности:
 

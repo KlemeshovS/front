@@ -44,6 +44,11 @@ Staging:
 - `https://staging-api.wobbly.site/api/docs`
 - `https://admin.wobbly.site/staging/`
 
+Server paths:
+
+- production frontend: `/opt/wobbly-front-production/current`
+- staging frontend: `/opt/wobbly-front-staging/current`
+
 ## Перед началом работы
 
 1. проверить `git status --short --branch`
