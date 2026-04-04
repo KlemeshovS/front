@@ -10,7 +10,7 @@ DEPLOY_USER="${DEPLOY_USER:?DEPLOY_USER is required}"
 DEPLOY_PATH="${DEPLOY_PATH:?DEPLOY_PATH is required}"
 DEPLOY_OWNER="${DEPLOY_OWNER:?DEPLOY_OWNER is required}"
 SSH_KEY_PATH="${SSH_KEY_PATH:?SSH_KEY_PATH is required}"
-DEPLOY_STATIC_PATH="${DEPLOY_STATIC_PATH:-${DEPLOY_PATH%/}/backend/app/static}"
+DEPLOY_STATIC_PATH="${DEPLOY_STATIC_PATH:-${DEPLOY_PATH%/}/current}"
 
 if [[ ! -d "$BUILD_DIR" ]]; then
   echo "Build directory $BUILD_DIR does not exist. Run npm run build first."

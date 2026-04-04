@@ -14,6 +14,7 @@ Frontend-репозиторий проекта `Wobbly`.
 - text docs page source
 - admin UI source
 - frontend CI/CD и deploy
+- nginx templates для frontend surface
 
 ## Структура
 
@@ -40,6 +41,12 @@ npm run build
 ```
 
 Сборка кладется в `dist/`.
+
+Целевая схема:
+
+- frontend на сервере живет отдельно от backend
+- production frontend и staging frontend имеют свои собственные каталоги
+- nginx раздает frontend как static app, а backend отвечает только за API
 
 ## Как разрабатывать локально
 

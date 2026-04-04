@@ -14,6 +14,10 @@ Frontend собирается в `dist/`.
 Deploy script:
 
 - `scripts/deploy_frontend.sh`
+- nginx templates:
+  - `deploy/nginx/wobbly.site.conf`
+  - `deploy/nginx/api.wobbly.site.conf`
+  - `deploy/nginx/admin.wobbly.site.conf`
 
 ## GitHub Workflows
 
@@ -43,30 +47,47 @@ Staging:
 
 Если `*_STATIC_PATH` не задан, deploy идет в:
 
-- `<DEPLOY_PATH>/backend/app/static`
+- `<DEPLOY_PATH>/current`
 
 ## Recommended values
 
-Текущая рабочая схема совпадает с backend deploy.
+Текущая целевая схема независима от backend deploy.
 
 Production:
 
 - `DEPLOY_HOST=api.wobbly.site`
 - `DEPLOY_USER=root`
-- `DEPLOY_PATH=/opt/rating-service`
+- `DEPLOY_PATH=/opt/wobbly-front-production`
 - `DEPLOY_OWNER=ratingapp:ratingapp`
-- `DEPLOY_STATIC_PATH=/opt/rating-service/backend/app/static`
+- `DEPLOY_STATIC_PATH=/opt/wobbly-front-production/current`
 - `DEPLOY_SSH_KEY` — скопировать один в один из backend repo secret `DEPLOY_SSH_KEY`
 
 Staging:
 
 - `STAGING_DEPLOY_HOST=api.wobbly.site`
 - `STAGING_DEPLOY_USER=root`
-- `STAGING_DEPLOY_PATH=/opt/rating-service-staging`
+- `STAGING_DEPLOY_PATH=/opt/wobbly-front-staging`
 - `STAGING_DEPLOY_OWNER=ratingapp:ratingapp`
-- `STAGING_DEPLOY_STATIC_PATH=/opt/rating-service-staging/backend/app/static`
+- `STAGING_DEPLOY_STATIC_PATH=/opt/wobbly-front-staging/current`
 - `STAGING_DEPLOY_SSH_KEY` — скопировать один в один из backend repo secret `STAGING_DEPLOY_SSH_KEY`
 - `STAGING_ACCESS_KEY` — скопировать один в один из backend repo secret `STAGING_ACCESS_KEY`
+
+## Целевая серверная схема
+
+Frontend и backend должны жить отдельно:
+
+- production backend: `/opt/rating-service`
+- staging backend: `/opt/rating-service-staging`
+- production frontend: `/opt/wobbly-front-production/current`
+- staging frontend: `/opt/wobbly-front-staging/current`
+
+Nginx должен:
+
+- `wobbly.site` раздавать из production frontend dir
+- `api.wobbly.site/api/docs` раздавать из production frontend dir
+- `admin.wobbly.site/production/` раздавать из production frontend dir
+- `admin.wobbly.site/staging/` раздавать из staging frontend dir
+- API-запросы проксировать в backend
 
 ## Smoke checks
 
