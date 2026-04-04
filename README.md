@@ -1,22 +1,38 @@
 # Wobbly Front
 
-Отдельный frontend-репозиторий для:
-- landing page
+Frontend-репозиторий проекта `Wobbly`.
+
+Репозитории:
+
+- frontend: [Wobbly-develop/front](https://github.com/Wobbly-develop/front)
+- backend: [Wobbly-develop/back](https://github.com/Wobbly-develop/back)
+
+Этот репозиторий отвечает за:
+
+- landing
 - privacy page
-- text docs page
-- admin UI
+- text docs page source
+- admin UI source
+- frontend CI/CD
+- frontend deploy в static bundle на сервере
+
+## Что здесь есть
+
+- `src/pages/LandingPage.vue`
+- `src/pages/PrivacyPage.vue`
+- `src/pages/ApiDocsPage.vue`
+- `src/pages/AdminPage.vue`
+- `src/features/docs/` — source of truth для текстовой docs page
+- `src/features/admin/` — admin state, typed API client, types
+- `.github/workflows/` — frontend CI/CD
+- `scripts/ci_check.sh`
+- `scripts/deploy_frontend.sh`
 
 ## Локальный запуск
 
 ```bash
 npm ci
 npm run dev
-```
-
-Проверки:
-
-```bash
-./scripts/ci_check.sh
 ```
 
 Build:
@@ -27,29 +43,38 @@ npm run build
 
 Сборка кладется в `dist/`.
 
+## Проверки
+
+```bash
+./scripts/ci_check.sh
+```
+
+Что входит:
+
+- `npm ci`
+- `npm run lint`
+- `npm run format`
+- `npm run build`
+
 ## Branch Flow
 
 - `develop` -> staging frontend deploy
 - `main` -> production frontend deploy
 
-## GitHub Secrets
+## Deploy
 
-Production:
-- `DEPLOY_HOST`
-- `DEPLOY_USER`
-- `DEPLOY_PATH`
-- `DEPLOY_OWNER`
-- `DEPLOY_SSH_KEY`
-- `DEPLOY_STATIC_PATH` (optional)
+Frontend деплоится отдельно от backend-кода:
 
-Staging:
-- `STAGING_DEPLOY_HOST`
-- `STAGING_DEPLOY_USER`
-- `STAGING_DEPLOY_PATH`
-- `STAGING_DEPLOY_OWNER`
-- `STAGING_DEPLOY_SSH_KEY`
-- `STAGING_DEPLOY_STATIC_PATH` (optional)
-- `STAGING_ACCESS_KEY`
+- staging deploy идет из `develop`
+- production deploy идет из `main`
+- результат выкладывается в серверный static path
 
-Если `DEPLOY_STATIC_PATH` или `STAGING_DEPLOY_STATIC_PATH` не заданы, deploy script использует:
-- `<DEPLOY_PATH>/backend/app/static`
+Подробности:
+
+- [docs/DEPLOY.md](/tmp/wobbly-front/docs/DEPLOY.md)
+
+## Важные docs
+
+- [docs/HANDOFF.md](/tmp/wobbly-front/docs/HANDOFF.md)
+- [docs/DEVELOPMENT_WORKFLOW.md](/tmp/wobbly-front/docs/DEVELOPMENT_WORKFLOW.md)
+- [docs/DEPLOY.md](/tmp/wobbly-front/docs/DEPLOY.md)
