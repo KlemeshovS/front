@@ -1,0 +1,98 @@
+name: Front Staging Verify and Deploy
+
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+
+concurrency:
+  group: front-staging-pipeline
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Run frontend checks
+        run: ./scripts/ci_check.sh
+
+  deploy-staging:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    needs:
+      - verify
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Write SSH key
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.STAGING_DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+      - name: Add server host key
+        run: |
+          ssh-keyscan -H "${{ secrets.STAGING_DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy frontend bundle to staging
+        env:
+          DEPLOY_HOST: ${{ secrets.STAGING_DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.STAGING_DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.STAGING_DEPLOY_PATH }}
+          DEPLOY_OWNER: ${{ secrets.STAGING_DEPLOY_OWNER }}
+          DEPLOY_STATIC_PATH: ${{ secrets.STAGING_DEPLOY_STATIC_PATH }}
+          SSH_KEY_PATH: /home/runner/.ssh/deploy_key
+        run: ./scripts/deploy_frontend.sh
+
+      - name: Smoke check staging URLs
+        env:
+          STAGING_ACCESS_KEY: ${{ secrets.STAGING_ACCESS_KEY }}
+        run: |
+          for url in \
+            https://staging-api.wobbly.site/api/docs \
+            https://admin.wobbly.site/staging/
+          do
+            for attempt in 1 2 3 4 5 6 7 8 9 10; do
+              if [ "$url" = "https://staging-api.wobbly.site/api/docs" ]; then
+                if curl -fsS -H "X-Staging-Key: ${STAGING_ACCESS_KEY}" "$url" >/dev/null; then
+                  break
+                fi
+              elif curl -fsS "$url" >/dev/null; then
+                break
+              fi
+
+              if [ "$attempt" -eq 10 ]; then
+                echo "Smoke check failed for $url"
+                exit 1
+              fi
+              sleep 3
+            done
+          done
