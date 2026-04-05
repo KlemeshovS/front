@@ -28,8 +28,23 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Run frontend checks
-        run: ./scripts/ci_check.sh
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run typecheck
+        run: ./scripts/typecheck.sh
+
+      - name: Run lint
+        run: ./scripts/lint.sh
+
+      - name: Run format check
+        run: ./scripts/format_check.sh
+
+      - name: Run frontend tests
+        run: ./scripts/test.sh
+
+      - name: Run frontend build
+        run: npm run build
 
   deploy-staging:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'

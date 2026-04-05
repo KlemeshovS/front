@@ -39,6 +39,23 @@
 7. влить в `develop`
 8. дождаться staging workflow
 
+## Проверки
+
+Главная команда:
+
+```bash
+./scripts/ci_check.sh
+```
+
+Отдельные стадии:
+
+```bash
+./scripts/typecheck.sh
+./scripts/lint.sh
+./scripts/format_check.sh
+./scripts/test.sh
+```
+
 ## Production
 
 1. взять проверенный frontend из `develop`

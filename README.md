@@ -71,9 +71,20 @@ npm run build
 Она запускает:
 
 - `npm ci`
+- `npm run typecheck`
 - `npm run lint`
 - `npm run format`
+- `npm run test`
 - `npm run build`
+
+Поштучно:
+
+```bash
+./scripts/typecheck.sh
+./scripts/lint.sh
+./scripts/format_check.sh
+./scripts/test.sh
+```
 
 ## Ветки и deploy
 

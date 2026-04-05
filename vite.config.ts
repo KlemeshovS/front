@@ -6,6 +6,10 @@ import { defineConfig } from "vite";
 export default defineConfig({
   base: "./",
   plugins: [vue()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

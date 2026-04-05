@@ -408,6 +408,14 @@ textarea {
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
 #screen-admins .table-wrap {
   overflow: visible;
 }
@@ -513,6 +521,22 @@ td {
   background: rgba(18, 16, 31, 0.98);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.detail-card {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .modal-head-actions {

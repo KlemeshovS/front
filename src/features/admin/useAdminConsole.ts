@@ -281,13 +281,23 @@ export function useAdminConsole() {
     }
   }
 
-  function selectUser(user: ManagedUserResponse) {
-    selectedUser.value = user;
-    userForm.username = user.username ?? "";
-    userForm.score = user.score;
-    userForm.participateInRating = user.participateInRating;
-    clearStatus(editorStatus);
-    isUserModalOpen.value = true;
+  async function openUserDetails(user: ManagedUserResponse) {
+    if (!session.value) {
+      return;
+    }
+
+    setStatus(editorStatus, "info", "Загружаем пользователя...");
+    try {
+      const detail = await api.user(session.value.token, user.id);
+      selectedUser.value = detail;
+      userForm.username = detail.username ?? "";
+      userForm.score = detail.score;
+      userForm.participateInRating = detail.participateInRating;
+      isUserModalOpen.value = true;
+      clearStatus(editorStatus);
+    } catch (error) {
+      setStatus(editorStatus, "error", errorMessage(error));
+    }
   }
 
   function selectAdmin(admin: AdminUserResponse) {
@@ -438,7 +448,7 @@ export function useAdminConsole() {
     loadUsers,
     loadAdmins,
     loadAudit,
-    selectUser,
+    openUserDetails,
     selectAdmin,
     saveUser,
     confirmDeleteUser,

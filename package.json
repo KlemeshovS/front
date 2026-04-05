@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "test": "vitest run",
     "lint": "eslint .",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
@@ -20,16 +21,19 @@
     "@tsconfig/node22": "^22.0.1",
     "@types/node": "^22.13.11",
     "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/tsconfig": "^0.7.0",
     "@vue/eslint-config-typescript": "^14.4.0",
+    "@vue/test-utils": "^2.4.6",
+    "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-vue": "^9.33.0",
     "globals": "^16.0.0",
+    "jsdom": "^26.1.0",
     "prettier": "^3.5.3",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.2.2",
+    "vitest": "^3.2.4",
     "vue-tsc": "^2.2.8"
   }
 }

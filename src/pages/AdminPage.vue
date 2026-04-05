@@ -181,21 +181,28 @@
                     <th>Username</th>
                     <th>Score</th>
                     <th>Rating</th>
+                    <th>Created</th>
                     <th>Updated</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-if="!consoleState.users.length">
-                    <td colspan="6">Нет пользователей</td>
+                    <td colspan="7">Нет пользователей</td>
                   </tr>
-                  <tr v-for="user in consoleState.users" :key="user.id">
+                  <tr
+                    v-for="user in consoleState.users"
+                    :key="user.id"
+                    class="clickable-row"
+                    @click="void consoleState.openUserDetails(user)"
+                  >
                     <td>{{ user.id }}</td>
                     <td>{{ user.username ?? "—" }}</td>
                     <td>{{ user.score }}</td>
                     <td>{{ user.participateInRating ? "on" : "off" }}</td>
+                    <td>{{ consoleState.formatDate(user.createdAt) }}</td>
                     <td>{{ consoleState.formatDate(user.updatedAt) }}</td>
-                    <td class="actions-cell">
+                    <td class="actions-cell" @click.stop>
                       <div class="user-actions">
                         <ActionMenuButton
                           button-label="User actions"
@@ -391,8 +398,7 @@
           <div>
             <h3>Редактирование пользователя</h3>
             <p class="muted">
-              Правки сохраняются в модальном окне, без редактирования сырого
-              JSON.
+              Детали пользователя и редактирование в одном окне.
             </p>
           </div>
           <div class="modal-head-actions">
@@ -410,6 +416,33 @@
             >
               Закрыть
             </button>
+          </div>
+        </div>
+        <div
+          v-if="consoleState.selectedUser"
+          class="details-grid details-grid-users"
+        >
+          <div class="detail-card">
+            <span class="muted">ID</span>
+            <strong>#{{ consoleState.selectedUser.id }}</strong>
+          </div>
+          <div class="detail-card">
+            <span class="muted">Created</span>
+            <strong>{{
+              consoleState.formatDate(consoleState.selectedUser.createdAt)
+            }}</strong>
+          </div>
+          <div class="detail-card">
+            <span class="muted">Updated</span>
+            <strong>{{
+              consoleState.formatDate(consoleState.selectedUser.updatedAt)
+            }}</strong>
+          </div>
+          <div class="detail-card">
+            <span class="muted">Last seen</span>
+            <strong>{{
+              consoleState.formatDate(consoleState.selectedUser.lastSeenAt)
+            }}</strong>
           </div>
         </div>
         <form class="form-grid" @submit.prevent="consoleState.saveUser">
@@ -608,7 +641,7 @@ const rowActions = [
 
 function handleUserAction(action: string, user: ManagedUserResponse) {
   if (action === "edit") {
-    consoleState.selectUser(user);
+    void consoleState.openUserDetails(user);
     return;
   }
 
