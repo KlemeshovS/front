@@ -90,6 +90,9 @@ npm run build
 
 - `develop` -> staging frontend deploy
 - `main` -> production frontend deploy
+- обычная работа идет только в `develop`
+- `main` обновляется только по прямой просьбе владельца
+- любой push или merge в `main` считается релизом
 
 Production surfaces:
 

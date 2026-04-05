@@ -30,6 +30,9 @@
 
 - `develop` — staging frontend
 - `main` — production frontend
+- обычная работа идет в `develop`
+- в `main` идем только по прямой просьбе владельца
+- любой push в `main` считается релизом
 
 ## Поверхности
 
