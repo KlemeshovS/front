@@ -48,11 +48,11 @@ export const docsSections: DocsSection[] = [
       },
       {
         title: "3. Сохранение профиля",
-        body: "Вызвать PATCH /api/v1/me/profile с username и participateInRating.",
+        body: "Вызвать PATCH /api/v1/me/profile с username и participateInRating. Для guest этот запрос недоступен.",
       },
       {
         title: "4. Участие в рейтинге",
-        body: "Вызвать PATCH /api/v1/me/rating, чтобы отдельно включить или выключить рейтинг.",
+        body: "Вызвать PATCH /api/v1/me/rating, чтобы отдельно включить или выключить рейтинг. Guest не может включать участие.",
       },
       {
         title: "5. Обновление рейтинга",
@@ -199,6 +199,7 @@ Content-Type: application/json`,
 }`,
         list: [
           "Если participateInRating = true, username должен быть заполнен.",
+          "Guest не может сохранять username через этот endpoint.",
           "username должен быть уникальным.",
           "Разрешены только латиница, цифры, _, ., -.",
           "Если username уже был сохранен, его нельзя очистить обратно в пустое значение.",
@@ -245,7 +246,28 @@ Content-Type: application/json`,
   "score": 123
 }`,
         muted:
-          "Мобильное приложение не должно передавать userId или username. Backend определяет пользователя по токену. Score можно отправлять только если у пользователя уже есть username и включено участие в рейтинге.",
+          "Мобильное приложение не должно передавать userId или username. Backend определяет пользователя по токену. Score можно отправлять только если у пользователя уже есть username, включено участие в рейтинге и session не guest.",
+      },
+    ],
+  },
+  {
+    id: "auth-required-errors",
+    title: "Auth-Required Ошибки",
+    cards: [
+      {
+        paragraphs: [
+          "Для мобильного клиента все ошибки API приходят в едином формате code + message.",
+          "Для guest-сценариев рейтингового контура backend теперь различает несколько отдельных кодов.",
+        ],
+        response: `{
+  "code": "AUTH_REQUIRED_FOR_USERNAME",
+  "message": "Authentication is required to save username"
+}`,
+        list: [
+          "AUTH_REQUIRED_FOR_RATING — требуется авторизация для участия в рейтинговом контуре, например для POST /api/v1/me/score.",
+          "AUTH_REQUIRED_FOR_USERNAME — требуется авторизация для сохранения username через PATCH /api/v1/me/profile.",
+          "GUEST_CANNOT_ENABLE_RATING — guest-пользователь пытается включить участие в рейтинге через PATCH /api/v1/me/profile или PATCH /api/v1/me/rating.",
+        ],
       },
     ],
   },
