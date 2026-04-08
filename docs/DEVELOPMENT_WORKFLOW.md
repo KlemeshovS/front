@@ -59,6 +59,24 @@
 ./scripts/test.sh
 ```
 
+Подключение hooks:
+
+```bash
+./scripts/install_git_hooks.sh
+```
+
+`pre-push` запускает:
+
+```bash
+./scripts/pre_push_check.sh
+```
+
+А он, в свою очередь, гоняет полный:
+
+```bash
+./scripts/ci_check.sh
+```
+
 ## Production
 
 1. взять проверенный frontend из `develop`
