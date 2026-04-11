@@ -164,34 +164,117 @@
               </button>
             </div>
 
-            <form class="toolbar" @submit.prevent="consoleState.loadUsers">
+            <form
+              class="toolbar toolbar-inline"
+              @submit.prevent="consoleState.loadUsers"
+            >
+              <button
+                class="primary-button toolbar-search-button"
+                type="submit"
+              >
+                Искать
+              </button>
               <input
                 v-model="consoleState.search"
                 type="search"
                 placeholder="Поиск по username"
               />
-              <button class="primary-button" type="submit">Искать</button>
             </form>
 
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Score</th>
-                    <th>Rating</th>
-                    <th>Created</th>
-                    <th>Updated</th>
+                    <th>
+                      <button
+                        class="sort-button"
+                        type="button"
+                        @click="consoleState.toggleUserSort('id')"
+                      >
+                        ID <span>{{ consoleState.userSortMarker("id") }}</span>
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        class="sort-button"
+                        type="button"
+                        @click="consoleState.toggleUserSort('username')"
+                      >
+                        Username
+                        <span>{{
+                          consoleState.userSortMarker("username")
+                        }}</span>
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        class="sort-button"
+                        type="button"
+                        @click="consoleState.toggleUserSort('score')"
+                      >
+                        Score
+                        <span>{{ consoleState.userSortMarker("score") }}</span>
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        class="sort-button"
+                        type="button"
+                        @click="
+                          consoleState.toggleUserSort('participateInRating')
+                        "
+                      >
+                        Rating
+                        <span>{{
+                          consoleState.userSortMarker("participateInRating")
+                        }}</span>
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        class="sort-button"
+                        type="button"
+                        @click="consoleState.toggleUserSort('accountStatus')"
+                      >
+                        Auth
+                        <span>{{
+                          consoleState.userSortMarker("accountStatus")
+                        }}</span>
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        class="sort-button"
+                        type="button"
+                        @click="consoleState.toggleUserSort('createdAt')"
+                      >
+                        Created
+                        <span>{{
+                          consoleState.userSortMarker("createdAt")
+                        }}</span>
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        class="sort-button"
+                        type="button"
+                        @click="consoleState.toggleUserSort('updatedAt')"
+                      >
+                        Updated
+                        <span>{{
+                          consoleState.userSortMarker("updatedAt")
+                        }}</span>
+                      </button>
+                    </th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-if="!consoleState.users.length">
-                    <td colspan="7">Нет пользователей</td>
+                  <tr v-if="!consoleState.sortedUsers.length">
+                    <td colspan="8">Нет пользователей</td>
                   </tr>
                   <tr
-                    v-for="user in consoleState.users"
+                    v-for="user in consoleState.sortedUsers"
                     :key="user.id"
                     class="clickable-row"
                     @click="void consoleState.openUserDetails(user)"
@@ -200,6 +283,7 @@
                     <td>{{ user.username ?? "—" }}</td>
                     <td>{{ user.score }}</td>
                     <td>{{ user.participateInRating ? "on" : "off" }}</td>
+                    <td>{{ consoleState.authStatusLabel(user) }}</td>
                     <td>{{ consoleState.formatDate(user.createdAt) }}</td>
                     <td>{{ consoleState.formatDate(user.updatedAt) }}</td>
                     <td class="actions-cell" @click.stop>
@@ -442,6 +526,22 @@
             <span class="muted">Last seen</span>
             <strong>{{
               consoleState.formatDate(consoleState.selectedUser.lastSeenAt)
+            }}</strong>
+          </div>
+          <div class="detail-card">
+            <span class="muted">Auth status</span>
+            <strong>{{
+              consoleState.selectedUser.accountStatus === "guest"
+                ? "guest"
+                : "authenticated"
+            }}</strong>
+          </div>
+          <div class="detail-card">
+            <span class="muted">Providers</span>
+            <strong>{{
+              consoleState.selectedUser.identityProviders.length
+                ? consoleState.selectedUser.identityProviders.join(", ")
+                : "—"
             }}</strong>
           </div>
         </div>

@@ -32,6 +32,8 @@ export interface ManagedUserResponse {
   username: string | null;
   score: number;
   participateInRating: boolean;
+  accountStatus: "guest" | "active";
+  identityProviders: string[];
   createdAt: string;
   updatedAt: string;
   lastSeenAt: string;

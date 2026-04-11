@@ -12,6 +12,15 @@ import type {
 
 type ScreenName = "overview" | "users" | "admins" | "audit" | "profile";
 type EnvironmentName = "production" | "staging";
+type UserSortField =
+  | "id"
+  | "username"
+  | "score"
+  | "participateInRating"
+  | "accountStatus"
+  | "createdAt"
+  | "updatedAt";
+type SortDirection = "asc" | "desc";
 
 function createStatus(): StatusState {
   return {
@@ -49,6 +58,8 @@ export function useAdminConsole() {
   const overview = ref<Record<string, number> | null>(null);
   const users = ref<ManagedUserResponse[]>([]);
   const admins = ref<AdminUserResponse[]>([]);
+  const userSortField = ref<UserSortField>("createdAt");
+  const userSortDirection = ref<SortDirection>("desc");
   const audit = ref<
     {
       id: number;
@@ -100,6 +111,48 @@ export function useAdminConsole() {
       "",
     );
     return value.slice(0, 2).toUpperCase() || "WA";
+  });
+  const sortedUsers = computed(() => {
+    const items = [...users.value];
+    const direction = userSortDirection.value === "asc" ? 1 : -1;
+
+    return items.sort((left, right) => {
+      const field = userSortField.value;
+
+      if (field === "username") {
+        return (
+          (left.username ?? "").localeCompare(right.username ?? "", "ru", {
+            sensitivity: "base",
+          }) * direction
+        );
+      }
+
+      if (field === "accountStatus") {
+        const leftValue = authStatusLabel(left);
+        const rightValue = authStatusLabel(right);
+        return (
+          leftValue.localeCompare(rightValue, "ru", { sensitivity: "base" }) *
+          direction
+        );
+      }
+
+      if (field === "participateInRating") {
+        return (
+          ((left.participateInRating ? 1 : 0) -
+            (right.participateInRating ? 1 : 0)) *
+          direction
+        );
+      }
+
+      if (field === "createdAt" || field === "updatedAt") {
+        return (
+          (new Date(left[field]).getTime() - new Date(right[field]).getTime()) *
+          direction
+        );
+      }
+
+      return ((left[field] as number) - (right[field] as number)) * direction;
+    });
   });
 
   function setStatus(
@@ -410,6 +463,36 @@ export function useAdminConsole() {
     return new Date(value).toLocaleString();
   }
 
+  function authStatusLabel(user: ManagedUserResponse) {
+    if (user.accountStatus === "guest") {
+      return "guest";
+    }
+
+    return user.identityProviders.length
+      ? user.identityProviders.join(", ")
+      : "authenticated";
+  }
+
+  function toggleUserSort(field: UserSortField) {
+    if (userSortField.value === field) {
+      userSortDirection.value =
+        userSortDirection.value === "asc" ? "desc" : "asc";
+      return;
+    }
+
+    userSortField.value = field;
+    userSortDirection.value =
+      field === "username" || field === "accountStatus" ? "asc" : "desc";
+  }
+
+  function userSortMarker(field: UserSortField) {
+    if (userSortField.value !== field) {
+      return "↕";
+    }
+
+    return userSortDirection.value === "asc" ? "↑" : "↓";
+  }
+
   return reactive({
     environment,
     environmentLabel,
@@ -421,8 +504,11 @@ export function useAdminConsole() {
     search,
     overview,
     users,
+    sortedUsers,
     admins,
     audit,
+    userSortField,
+    userSortDirection,
     loginStatus,
     overviewStatus,
     usersStatus,
@@ -456,5 +542,8 @@ export function useAdminConsole() {
     saveAdmin,
     confirmDeleteAdmin,
     formatDate,
+    authStatusLabel,
+    toggleUserSort,
+    userSortMarker,
   });
 }
