@@ -539,8 +539,8 @@
           <div class="detail-card">
             <span class="muted">Providers</span>
             <strong>{{
-              consoleState.selectedUser.identityProviders.length
-                ? consoleState.selectedUser.identityProviders.join(", ")
+              (consoleState.selectedUser.identityProviders ?? []).length
+                ? (consoleState.selectedUser.identityProviders ?? []).join(", ")
                 : "—"
             }}</strong>
           </div>

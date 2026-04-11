@@ -169,6 +169,18 @@ export function useAdminConsole() {
     target.text = "";
   }
 
+  function normalizeManagedUser(
+    user: ManagedUserResponse,
+  ): ManagedUserResponse {
+    return {
+      ...user,
+      accountStatus: user.accountStatus ?? "guest",
+      identityProviders: Array.isArray(user.identityProviders)
+        ? user.identityProviders
+        : [],
+    };
+  }
+
   function restoreSession() {
     const raw = window.localStorage.getItem(storageKey.value);
     if (!raw) {
@@ -292,7 +304,7 @@ export function useAdminConsole() {
         session.value.token,
         search.value.trim(),
       );
-      users.value = response.items;
+      users.value = response.items.map(normalizeManagedUser);
       setStatus(usersStatus, "success", "Пользователи обновлены");
     } catch (error) {
       setStatus(usersStatus, "error", errorMessage(error));
@@ -341,7 +353,9 @@ export function useAdminConsole() {
 
     setStatus(editorStatus, "info", "Загружаем пользователя...");
     try {
-      const detail = await api.user(session.value.token, user.id);
+      const detail = normalizeManagedUser(
+        await api.user(session.value.token, user.id),
+      );
       selectedUser.value = detail;
       userForm.username = detail.username ?? "";
       userForm.score = detail.score;
@@ -468,9 +482,11 @@ export function useAdminConsole() {
       return "guest";
     }
 
-    return user.identityProviders.length
-      ? user.identityProviders.join(", ")
-      : "authenticated";
+    const providers = Array.isArray(user.identityProviders)
+      ? user.identityProviders
+      : [];
+
+    return providers.length ? providers.join(", ") : "authenticated";
   }
 
   function toggleUserSort(field: UserSortField) {
