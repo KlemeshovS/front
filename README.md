@@ -86,10 +86,20 @@ npm run build
 ./scripts/test.sh
 ```
 
+Перед релизом:
+
+```bash
+./scripts/release_check.sh
+```
+
 ## Ветки и deploy
 
 - `develop` -> staging frontend deploy
 - `main` -> production frontend deploy
+- обычная работа идет только в `develop`
+- `main` обновляется только по прямой просьбе владельца
+- любой push или merge в `main` считается релизом
+- перед release в `main` обязательно прогоняется `./scripts/release_check.sh`
 
 Production surfaces:
 

@@ -31,11 +31,28 @@ const mockedConsole = {
       username: "detail_user",
       score: 321,
       participateInRating: true,
+      accountStatus: "active",
+      identityProviders: ["google"],
       createdAt: "2026-04-05T08:00:00Z",
       updatedAt: "2026-04-05T09:00:00Z",
       lastSeenAt: "2026-04-05T09:30:00Z",
     },
   ],
+  sortedUsers: [
+    {
+      id: 14,
+      username: "detail_user",
+      score: 321,
+      participateInRating: true,
+      accountStatus: "active",
+      identityProviders: ["google"],
+      createdAt: "2026-04-05T08:00:00Z",
+      updatedAt: "2026-04-05T09:00:00Z",
+      lastSeenAt: "2026-04-05T09:30:00Z",
+    },
+  ],
+  userSortField: "createdAt",
+  userSortDirection: "desc",
   admins: [],
   audit: [],
   selectedUser: {
@@ -43,6 +60,8 @@ const mockedConsole = {
     username: "detail_user",
     score: 321,
     participateInRating: true,
+    accountStatus: "active",
+    identityProviders: ["google", "yandex"],
     createdAt: "2026-04-05T08:00:00Z",
     updatedAt: "2026-04-05T09:00:00Z",
     lastSeenAt: "2026-04-05T09:30:00Z",
@@ -68,6 +87,15 @@ const mockedConsole = {
   confirmDeleteAdmin: vi.fn(),
   openUserDetails: vi.fn(),
   formatDate: (value: string) => value,
+  authStatusLabel: (user: {
+    accountStatus: string;
+    identityProviders: string[];
+  }) =>
+    user.accountStatus === "guest"
+      ? "guest"
+      : user.identityProviders.join(", "),
+  toggleUserSort: vi.fn(),
+  userSortMarker: () => "↕",
   initialize: vi.fn(),
   displayLogin: "owner",
 };
@@ -83,6 +111,8 @@ describe("AdminPage", () => {
     expect(wrapper.text()).toContain("Created");
     expect(wrapper.text()).toContain("2026-04-05T08:00:00Z");
     expect(wrapper.text()).toContain("Last seen");
+    expect(wrapper.text()).toContain("Auth");
+    expect(wrapper.text()).toContain("google, yandex");
     expect(wrapper.text()).toContain("#14");
   });
 });

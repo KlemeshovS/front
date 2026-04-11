@@ -300,6 +300,19 @@ button:hover {
   gap: 14px;
 }
 
+.toolbar-inline {
+  grid-template-columns: auto minmax(220px, 1fr);
+  align-items: center;
+}
+
+.toolbar-search-button {
+  min-width: 0;
+  width: fit-content;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-align: center;
+}
+
 .split-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.9fr);
@@ -565,6 +578,24 @@ thead th {
   font-size: 14px;
 }
 
+.sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+}
+
+.sort-button:hover {
+  transform: none;
+  color: var(--text);
+}
+
 tbody tr:hover {
   background: rgba(255, 255, 255, 0.03);
 }
@@ -698,6 +729,10 @@ tbody tr:hover {
   }
 
   .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar-inline {
     grid-template-columns: 1fr;
   }
 }

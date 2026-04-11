@@ -7,6 +7,9 @@
 - `develop` — основная ветка разработки и staging
 - `main` — production-only ветка
 - задачи делаются в коротких ветках от `develop`
+- любые обычные изменения ведутся через `develop`
+- в `main` пушим только по прямой просьбе владельца
+- любой push в `main` считается релизом
 
 ## Именование веток
 
@@ -47,6 +50,12 @@
 ./scripts/ci_check.sh
 ```
 
+Релизная команда:
+
+```bash
+./scripts/release_check.sh
+```
+
 Отдельные стадии:
 
 ```bash
@@ -56,11 +65,40 @@
 ./scripts/test.sh
 ```
 
+Подключение hooks:
+
+```bash
+./scripts/install_git_hooks.sh
+```
+
+`pre-push` запускает:
+
+```bash
+./scripts/pre_push_check.sh
+```
+
+А он, в свою очередь, гоняет полный:
+
+```bash
+./scripts/ci_check.sh
+```
+
 ## Production
 
 1. взять проверенный frontend из `develop`
-2. влить в `main`
-3. дождаться production workflow
+2. обязательно прогнать перед релизом:
+
+```bash
+./scripts/release_check.sh
+```
+
+3. влить в `main`
+4. дождаться production workflow
+
+Правило:
+
+- `main` обновляется только по прямой просьбе владельца
+- любой merge или push в `main` считается релизом
 
 Deploy flow after repo split:
 
