@@ -50,6 +50,12 @@
 ./scripts/ci_check.sh
 ```
 
+Релизная команда:
+
+```bash
+./scripts/release_check.sh
+```
+
 Отдельные стадии:
 
 ```bash
@@ -80,8 +86,14 @@
 ## Production
 
 1. взять проверенный frontend из `develop`
-2. влить в `main`
-3. дождаться production workflow
+2. обязательно прогнать перед релизом:
+
+```bash
+./scripts/release_check.sh
+```
+
+3. влить в `main`
+4. дождаться production workflow
 
 Правило:
 
