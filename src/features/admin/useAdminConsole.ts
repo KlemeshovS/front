@@ -55,6 +55,9 @@ export function useAdminConsole() {
   const session = ref<AdminSession | null>(null);
   const activeScreen = ref<ScreenName>("overview");
   const search = ref("");
+  const usersPage = ref(0);
+  const usersPageSize = ref(50);
+  const usersTotalCount = ref(0);
   const overview = ref<Record<string, number> | null>(null);
   const users = ref<ManagedUserResponse[]>([]);
   const admins = ref<AdminUserResponse[]>([]);
@@ -112,6 +115,10 @@ export function useAdminConsole() {
     );
     return value.slice(0, 2).toUpperCase() || "WA";
   });
+  const usersPageCount = computed(() =>
+    Math.max(1, Math.ceil(usersTotalCount.value / usersPageSize.value)),
+  );
+
   const sortedUsers = computed(() => {
     const items = [...users.value];
     const direction = userSortDirection.value === "asc" ? 1 : -1;
@@ -227,6 +234,7 @@ export function useAdminConsole() {
         role: response.role,
         login: login.value.trim(),
       });
+      usersPage.value = 0;
       await loadDashboard();
       password.value = "";
       setStatus(loginStatus, "success", "Вход выполнен");
@@ -295,20 +303,40 @@ export function useAdminConsole() {
     }
   }
 
+  async function searchUsers() {
+    usersPage.value = 0;
+    await loadUsers();
+  }
+
   async function loadUsers() {
     if (!session.value) {
       return;
     }
     try {
+      const offset = usersPage.value * usersPageSize.value;
       const response = await api.users(
         session.value.token,
         search.value.trim(),
+        usersPageSize.value,
+        offset,
       );
       users.value = response.items.map(normalizeManagedUser);
+      usersTotalCount.value = response.total;
       setStatus(usersStatus, "success", "Пользователи обновлены");
     } catch (error) {
       setStatus(usersStatus, "error", errorMessage(error));
     }
+  }
+
+  async function goToUsersPage(page: number) {
+    usersPage.value = Math.max(0, Math.min(page, usersPageCount.value - 1));
+    await loadUsers();
+  }
+
+  async function changeUsersPageSize(size: number) {
+    usersPageSize.value = size;
+    usersPage.value = 0;
+    await loadUsers();
   }
 
   async function loadAdmins() {
@@ -518,6 +546,10 @@ export function useAdminConsole() {
     session,
     activeScreen,
     search,
+    usersPage,
+    usersPageSize,
+    usersTotalCount,
+    usersPageCount,
     overview,
     users,
     sortedUsers,
@@ -547,7 +579,10 @@ export function useAdminConsole() {
     initialize,
     submitLogin,
     logout,
+    searchUsers,
     loadUsers,
+    goToUsersPage,
+    changeUsersPageSize,
     loadAdmins,
     loadAudit,
     openUserDetails,
