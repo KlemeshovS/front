@@ -35,10 +35,10 @@ describe("createAdminApi", () => {
   it("builds staging users search url", () => {
     const api = createAdminApi("staging");
 
-    api.users("token", "gil");
+    api.users("token", "gil", 50, 0);
 
     expect(requestJson).toHaveBeenCalledWith(
-      "https://admin.wobbly.site/staging/api/users?search=gil",
+      "https://admin.wobbly.site/staging/api/users?search=gil&limit=50&offset=0",
       {
         headers: {
           Authorization: "Bearer token",

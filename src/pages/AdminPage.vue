@@ -166,7 +166,7 @@
 
             <form
               class="toolbar toolbar-inline"
-              @submit.prevent="consoleState.loadUsers"
+              @submit.prevent="consoleState.searchUsers"
             >
               <button
                 class="primary-button toolbar-search-button"
@@ -298,6 +298,77 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <div class="pagination">
+              <div class="pagination-info">
+                {{
+                  consoleState.usersTotalCount === 0
+                    ? "Нет пользователей"
+                    : `${consoleState.usersPage * consoleState.usersPageSize + 1}–${Math.min((consoleState.usersPage + 1) * consoleState.usersPageSize, consoleState.usersTotalCount)} из ${consoleState.usersTotalCount}`
+                }}
+              </div>
+              <div class="pagination-controls">
+                <button
+                  class="ghost-button"
+                  type="button"
+                  :disabled="consoleState.usersPage === 0"
+                  @click="void consoleState.goToUsersPage(0)"
+                >
+                  «
+                </button>
+                <button
+                  class="ghost-button"
+                  type="button"
+                  :disabled="consoleState.usersPage === 0"
+                  @click="
+                    void consoleState.goToUsersPage(consoleState.usersPage - 1)
+                  "
+                >
+                  ‹
+                </button>
+                <span class="pagination-page">
+                  {{ consoleState.usersPage + 1 }} /
+                  {{ consoleState.usersPageCount }}
+                </span>
+                <button
+                  class="ghost-button"
+                  type="button"
+                  :disabled="
+                    consoleState.usersPage >= consoleState.usersPageCount - 1
+                  "
+                  @click="
+                    void consoleState.goToUsersPage(consoleState.usersPage + 1)
+                  "
+                >
+                  ›
+                </button>
+                <button
+                  class="ghost-button"
+                  type="button"
+                  :disabled="
+                    consoleState.usersPage >= consoleState.usersPageCount - 1
+                  "
+                  @click="
+                    void consoleState.goToUsersPage(
+                      consoleState.usersPageCount - 1,
+                    )
+                  "
+                >
+                  »
+                </button>
+                <select
+                  :value="consoleState.usersPageSize"
+                  @change="
+                    void consoleState.changeUsersPageSize(
+                      Number(($event.target as HTMLSelectElement).value),
+                    )
+                  "
+                >
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
             </div>
             <p class="status" :class="statusClass(consoleState.usersStatus)">
               {{ consoleState.usersStatus.text }}
