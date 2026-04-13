@@ -176,6 +176,23 @@ export function useAdminConsole() {
     target.text = "";
   }
 
+  async function withStatus<T>(
+    target: StatusState,
+    loadingText: string,
+    successText: string,
+    fn: () => Promise<T>,
+  ): Promise<T | undefined> {
+    setStatus(target, "info", loadingText);
+    try {
+      const result = await fn();
+      setStatus(target, "success", successText);
+      return result;
+    } catch (error) {
+      setStatus(target, "error", errorMessage(error));
+      return undefined;
+    }
+  }
+
   function normalizeManagedUser(
     user: ManagedUserResponse,
   ): ManagedUserResponse {
@@ -226,8 +243,7 @@ export function useAdminConsole() {
   }
 
   async function submitLogin() {
-    setStatus(loginStatus, "info", "Входим...");
-    try {
+    await withStatus(loginStatus, "Входим...", "Вход выполнен", async () => {
       const response = await api.login(login.value.trim(), password.value);
       persistSession({
         token: response.accessToken,
@@ -237,10 +253,7 @@ export function useAdminConsole() {
       usersPage.value = 0;
       await loadDashboard();
       password.value = "";
-      setStatus(loginStatus, "success", "Вход выполнен");
-    } catch (error) {
-      setStatus(loginStatus, "error", errorMessage(error));
-    }
+    });
   }
 
   async function logout() {
@@ -288,19 +301,21 @@ export function useAdminConsole() {
     if (!session.value) {
       return;
     }
-    try {
-      const response = await api.overview(session.value.token);
-      overview.value = {
-        totalUsers: response.totalUsers,
-        ratingEnabledUsers: response.ratingEnabledUsers,
-        totalAdmins: response.totalAdmins,
-        activeAdmins: response.activeAdmins,
-        auditLogEntries: response.auditLogEntries,
-      };
-      setStatus(overviewStatus, "success", "Сводка обновлена");
-    } catch (error) {
-      setStatus(overviewStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      overviewStatus,
+      "Загружаем сводку...",
+      "Сводка обновлена",
+      async () => {
+        const response = await api.overview(session.value!.token);
+        overview.value = {
+          totalUsers: response.totalUsers,
+          ratingEnabledUsers: response.ratingEnabledUsers,
+          totalAdmins: response.totalAdmins,
+          activeAdmins: response.activeAdmins,
+          auditLogEntries: response.auditLogEntries,
+        };
+      },
+    );
   }
 
   async function searchUsers() {
@@ -312,20 +327,22 @@ export function useAdminConsole() {
     if (!session.value) {
       return;
     }
-    try {
-      const offset = usersPage.value * usersPageSize.value;
-      const response = await api.users(
-        session.value.token,
-        search.value.trim(),
-        usersPageSize.value,
-        offset,
-      );
-      users.value = response.items.map(normalizeManagedUser);
-      usersTotalCount.value = response.total;
-      setStatus(usersStatus, "success", "Пользователи обновлены");
-    } catch (error) {
-      setStatus(usersStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      usersStatus,
+      "Загружаем...",
+      "Пользователи обновлены",
+      async () => {
+        const offset = usersPage.value * usersPageSize.value;
+        const response = await api.users(
+          session.value!.token,
+          search.value.trim(),
+          usersPageSize.value,
+          offset,
+        );
+        users.value = response.items.map(normalizeManagedUser);
+        usersTotalCount.value = response.total;
+      },
+    );
   }
 
   async function goToUsersPage(page: number) {
@@ -343,35 +360,39 @@ export function useAdminConsole() {
     if (!session.value) {
       return;
     }
-    try {
-      const response = await api.admins(session.value.token);
-      admins.value = response.items;
-      setStatus(adminsStatus, "success", "Администраторы обновлены");
-    } catch (error) {
-      setStatus(adminsStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      adminsStatus,
+      "Загружаем...",
+      "Администраторы обновлены",
+      async () => {
+        const response = await api.admins(session.value!.token);
+        admins.value = response.items;
+      },
+    );
   }
 
   async function loadAudit() {
     if (!session.value) {
       return;
     }
-    try {
-      const response = await api.auditLog(session.value.token);
-      audit.value = response.items.map((item) => ({
-        id: item.id,
-        when: formatDate(item.createdAt),
-        adminLogin: item.adminLogin,
-        action: item.action,
-        target: item.targetId
-          ? `${item.targetType} #${item.targetId}`
-          : item.targetType,
-        details: JSON.stringify(item.details),
-      }));
-      setStatus(auditStatus, "success", "Audit log обновлен");
-    } catch (error) {
-      setStatus(auditStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      auditStatus,
+      "Загружаем...",
+      "Audit log обновлен",
+      async () => {
+        const response = await api.auditLog(session.value!.token);
+        audit.value = response.items.map((item) => ({
+          id: item.id,
+          when: formatDate(item.createdAt),
+          adminLogin: item.adminLogin,
+          action: item.action,
+          target: item.targetId
+            ? `${item.targetType} #${item.targetId}`
+            : item.targetType,
+          details: JSON.stringify(item.details),
+        }));
+      },
+    );
   }
 
   async function openUserDetails(user: ManagedUserResponse) {
@@ -379,20 +400,22 @@ export function useAdminConsole() {
       return;
     }
 
-    setStatus(editorStatus, "info", "Загружаем пользователя...");
-    try {
-      const detail = normalizeManagedUser(
-        await api.user(session.value.token, user.id),
-      );
-      selectedUser.value = detail;
-      userForm.username = detail.username ?? "";
-      userForm.score = detail.score;
-      userForm.participateInRating = detail.participateInRating;
-      isUserModalOpen.value = true;
-      clearStatus(editorStatus);
-    } catch (error) {
-      setStatus(editorStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      editorStatus,
+      "Загружаем пользователя...",
+      "",
+      async () => {
+        const detail = normalizeManagedUser(
+          await api.user(session.value!.token, user.id),
+        );
+        selectedUser.value = detail;
+        userForm.username = detail.username ?? "";
+        userForm.score = detail.score;
+        userForm.participateInRating = detail.participateInRating;
+        isUserModalOpen.value = true;
+        clearStatus(editorStatus);
+      },
+    );
   }
 
   function selectAdmin(admin: AdminUserResponse) {
@@ -409,20 +432,21 @@ export function useAdminConsole() {
       return;
     }
 
-    setStatus(editorStatus, "info", "Сохраняем...");
-    try {
-      await api.updateUser(session.value.token, selectedUser.value.id, {
-        username: userForm.username.trim() || null,
-        score: userForm.score,
-        participateInRating: userForm.participateInRating,
-      });
-      await loadUsers();
-      await loadOverview();
-      isUserModalOpen.value = false;
-      setStatus(editorStatus, "success", "Пользователь сохранен");
-    } catch (error) {
-      setStatus(editorStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      editorStatus,
+      "Сохраняем...",
+      "Пользователь сохранен",
+      async () => {
+        await api.updateUser(session.value!.token, selectedUser.value!.id, {
+          username: userForm.username.trim() || null,
+          score: userForm.score,
+          participateInRating: userForm.participateInRating,
+        });
+        await loadUsers();
+        await loadOverview();
+        isUserModalOpen.value = false;
+      },
+    );
   }
 
   async function confirmDeleteUser(user: ManagedUserResponse) {
@@ -433,14 +457,16 @@ export function useAdminConsole() {
       return;
     }
 
-    try {
-      await api.deleteUser(session.value.token, user.id);
-      await loadUsers();
-      await loadOverview();
-      setStatus(usersStatus, "success", "Пользователь удален");
-    } catch (error) {
-      setStatus(usersStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      usersStatus,
+      "Удаляем...",
+      "Пользователь удален",
+      async () => {
+        await api.deleteUser(session.value!.token, user.id);
+        await loadUsers();
+        await loadOverview();
+      },
+    );
   }
 
   async function createAdmin() {
@@ -448,21 +474,22 @@ export function useAdminConsole() {
       return;
     }
 
-    setStatus(adminEditorStatus, "info", "Создаем admin...");
-    try {
-      await api.createAdmin(session.value.token, {
-        login: adminCreateForm.login.trim(),
-        password: adminCreateForm.password,
-      });
-      adminCreateForm.login = "";
-      adminCreateForm.password = "";
-      isAdminCreateModalOpen.value = false;
-      await loadAdmins();
-      await loadOverview();
-      setStatus(adminsStatus, "success", "Admin создан");
-    } catch (error) {
-      setStatus(adminEditorStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      adminEditorStatus,
+      "Создаем admin...",
+      "Admin создан",
+      async () => {
+        await api.createAdmin(session.value!.token, {
+          login: adminCreateForm.login.trim(),
+          password: adminCreateForm.password,
+        });
+        adminCreateForm.login = "";
+        adminCreateForm.password = "";
+        isAdminCreateModalOpen.value = false;
+        await loadAdmins();
+        await loadOverview();
+      },
+    );
   }
 
   async function saveAdmin() {
@@ -470,20 +497,21 @@ export function useAdminConsole() {
       return;
     }
 
-    setStatus(adminEditorStatus, "info", "Сохраняем admin...");
-    try {
-      await api.updateAdmin(session.value.token, selectedAdmin.value.id, {
-        role: adminEditForm.role,
-        isActive: adminEditForm.isActive,
-        password: adminEditForm.password || undefined,
-      });
-      await loadAdmins();
-      await loadOverview();
-      isAdminModalOpen.value = false;
-      setStatus(adminEditorStatus, "success", "Admin сохранен");
-    } catch (error) {
-      setStatus(adminEditorStatus, "error", errorMessage(error));
-    }
+    await withStatus(
+      adminEditorStatus,
+      "Сохраняем admin...",
+      "Admin сохранен",
+      async () => {
+        await api.updateAdmin(session.value!.token, selectedAdmin.value!.id, {
+          role: adminEditForm.role,
+          isActive: adminEditForm.isActive,
+          password: adminEditForm.password || undefined,
+        });
+        await loadAdmins();
+        await loadOverview();
+        isAdminModalOpen.value = false;
+      },
+    );
   }
 
   async function confirmDeleteAdmin(admin: AdminUserResponse) {
@@ -491,14 +519,11 @@ export function useAdminConsole() {
       return;
     }
 
-    try {
-      await api.deleteAdmin(session.value.token, admin.id);
+    await withStatus(adminsStatus, "Удаляем...", "Admin удален", async () => {
+      await api.deleteAdmin(session.value!.token, admin.id);
       await loadAdmins();
       await loadOverview();
-      setStatus(adminsStatus, "success", "Admin удален");
-    } catch (error) {
-      setStatus(adminsStatus, "error", errorMessage(error));
-    }
+    });
   }
 
   function formatDate(value: string) {
