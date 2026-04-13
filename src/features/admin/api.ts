@@ -50,11 +50,15 @@ export function createAdminApi(environment: "production" | "staging") {
         headers: buildHeaders(token),
       });
     },
-    users(token: string, search: string) {
-      const suffix = search ? `?search=${encodeURIComponent(search)}` : "";
-      return requestJson<ManagedUserListResponse>(`${baseUrl}/users${suffix}`, {
-        headers: buildHeaders(token),
-      });
+    users(token: string, search: string, limit: number, offset: number) {
+      const params = new URLSearchParams();
+      if (search) params.set("search", search);
+      params.set("limit", String(limit));
+      params.set("offset", String(offset));
+      return requestJson<ManagedUserListResponse>(
+        `${baseUrl}/users?${params.toString()}`,
+        { headers: buildHeaders(token) },
+      );
     },
     user(token: string, userId: number) {
       return requestJson<ManagedUserResponse>(`${baseUrl}/users/${userId}`, {
