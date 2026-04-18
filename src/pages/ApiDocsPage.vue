@@ -96,8 +96,6 @@
       </template>
 
       <ArchitectureDiagram v-else-if="activeTab === 'architecture'" />
-
-      <DesignSystemDoc v-else-if="activeTab === 'design'" />
     </main>
   </div>
 </template>
@@ -107,7 +105,6 @@ import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import ArchitectureDiagram from "@/features/docs/ArchitectureDiagram.vue";
-import DesignSystemDoc from "@/features/docs/DesignSystemDoc.vue";
 import { type DocsPage, docsPages } from "@/features/docs/content";
 import "@/shared/styles/api-docs.css";
 
@@ -160,10 +157,7 @@ const pageMetas: TabMeta[] = [
   },
 ];
 
-const specialTabs = [
-  { id: "architecture", label: "Architecture", icon: "🏗" },
-  { id: "design", label: "Design System", icon: "🎨" },
-];
+const specialTabs = [{ id: "architecture", label: "Architecture", icon: "🏗" }];
 
 const allTabs = [
   ...pageMetas.map((m) => ({ id: m.id, label: m.label, icon: m.icon })),
