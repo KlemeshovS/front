@@ -77,7 +77,8 @@ export const docsSections: DocsSection[] = [
           "Опциональный заголовок X-Client-Platform для идентификации платформы клиента. Сервер сохраняет значение в сессии.",
         ],
         headers: "X-Client-Platform: ios",
-        muted: "Допустимые значения: ios, android. Любое другое значение игнорируется.",
+        muted:
+          "Допустимые значения: ios, android. Любое другое значение игнорируется.",
       },
     ],
   },
@@ -192,14 +193,17 @@ export const docsSections: DocsSection[] = [
         method: "POST",
         badgeClass: "post",
         path: "/api/v1/auth/anonymous",
-        paragraphs: ["Создаёт anonymous (guest) пользователя и возвращает bearer token."],
+        paragraphs: [
+          "Создаёт anonymous (guest) пользователя и возвращает bearer token.",
+        ],
         request: "{}",
         response: `{
   "userId": 26,
   "accessToken": "ac_xxxxx",
   "tokenType": "bearer"
 }`,
-        muted: "refreshToken для anonymous не возвращается. Guest не может участвовать в рейтинге.",
+        muted:
+          "refreshToken для anonymous не возвращается. Guest не может участвовать в рейтинге.",
       },
     ],
   },
@@ -283,7 +287,9 @@ export const docsSections: DocsSection[] = [
         method: "GET",
         badgeClass: "get",
         path: "/api/v1/auth/session",
-        paragraphs: ["Возвращает текущую серверную сессию и базовое состояние пользователя."],
+        paragraphs: [
+          "Возвращает текущую серверную сессию и базовое состояние пользователя.",
+        ],
         headers: "Authorization: Bearer <accessToken>",
         response: `{
   "userId": 26,
@@ -328,7 +334,9 @@ export const docsSections: DocsSection[] = [
         method: "POST",
         badgeClass: "post",
         path: "/api/v1/auth/logout",
-        paragraphs: ["Завершает текущую сессию на сервере. После этого accessToken становится невалидным."],
+        paragraphs: [
+          "Завершает текущую сессию на сервере. После этого accessToken становится невалидным.",
+        ],
         headers: "Authorization: Bearer <accessToken>",
         response: `{
   "status": "loggedOut"
@@ -344,7 +352,9 @@ export const docsSections: DocsSection[] = [
         method: "GET",
         badgeClass: "get",
         path: "/api/v1/auth/providers",
-        paragraphs: ["Возвращает список привязанных identity providers для текущего аккаунта."],
+        paragraphs: [
+          "Возвращает список привязанных identity providers для текущего аккаунта.",
+        ],
         headers: "Authorization: Bearer <accessToken>",
         response: `{
   "items": [
@@ -392,7 +402,8 @@ export const docsSections: DocsSection[] = [
         request: `{
   "accessToken": "<Yandex OAuth Token>"
 }`,
-        muted: "Ответ у всех link-методов одинаковый: обновлённый список providers.",
+        muted:
+          "Ответ у всех link-методов одинаковый: обновлённый список providers.",
       },
     ],
   },
@@ -412,7 +423,8 @@ export const docsSections: DocsSection[] = [
         response: `{
   "items": [...]
 }`,
-        muted: "Нельзя отвязать последний способ входа — вернёт 409 LAST_IDENTITY_REQUIRED.",
+        muted:
+          "Нельзя отвязать последний способ входа — вернёт 409 LAST_IDENTITY_REQUIRED.",
       },
     ],
   },
@@ -504,7 +516,8 @@ Content-Type: multipart/form-data`,
   "participateInRating": true,
   "avatarUrl": "https://api.wobbly.site/media/avatars/user-26.jpg"
 }`,
-        muted: "Поддерживаются image/jpeg, image/png, image/webp. Максимальный размер задаётся конфигом AVATAR_MAX_BYTES.",
+        muted:
+          "Поддерживаются image/jpeg, image/png, image/webp. Максимальный размер задаётся конфигом AVATAR_MAX_BYTES.",
       },
     ],
   },
