@@ -75,11 +75,20 @@ body {
   padding: 8px 10px;
   border-radius: 10px;
   margin-bottom: 6px;
+  transition:
+    color 0.15s,
+    background 0.15s;
 }
 
 .sidebar a:hover {
   color: var(--text);
   background: rgba(124, 92, 255, 0.14);
+}
+
+.sidebar a.active {
+  color: var(--text);
+  background: rgba(124, 92, 255, 0.2);
+  font-weight: 600;
 }
 
 .content {
@@ -138,6 +147,14 @@ li {
   border: 1px solid var(--border);
   border-radius: 20px;
   margin-bottom: 18px;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.card:hover {
+  border-color: rgba(124, 92, 255, 0.35);
+  background: rgba(23, 25, 43, 0.95);
 }
 
 .method {
@@ -173,6 +190,10 @@ li {
   background: #f59e0b;
 }
 
+.badge.delete {
+  background: #ef4444;
+}
+
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   background: rgba(255, 255, 255, 0.06);
@@ -204,6 +225,13 @@ pre {
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 18px;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.quick-box:hover {
+  border-color: rgba(124, 92, 255, 0.3);
 }
 
 .links {
@@ -220,6 +248,14 @@ pre {
   border: 1px solid var(--border);
   padding: 10px 14px;
   border-radius: 12px;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.links a:hover {
+  background: rgba(124, 92, 255, 0.35);
+  border-color: rgba(124, 92, 255, 0.5);
 }
 
 ul {
@@ -243,7 +279,7 @@ ul {
     padding: 28px 20px 60px;
   }
 
-  .sidebar nav {
+  .sidebar-nav {
     display: flex;
     gap: 8px;
     overflow-x: auto;

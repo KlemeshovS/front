@@ -3,13 +3,16 @@
     <aside class="sidebar">
       <div class="brand">Wobbly API</div>
       <div class="subtitle">Публичные и admin endpoint'ы</div>
-      <a
-        v-for="section in docsSections"
-        :key="section.id"
-        :href="`#${section.id}`"
-      >
-        {{ section.title }}
-      </a>
+      <nav class="sidebar-nav" aria-label="API sections">
+        <a
+          v-for="section in docsSections"
+          :key="section.id"
+          :href="`#${section.id}`"
+          :class="{ active: activeSection === section.id }"
+        >
+          {{ section.title }}
+        </a>
+      </nav>
     </aside>
 
     <main class="content">
@@ -78,15 +81,39 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 import { docsSections } from "@/features/docs/content";
 import "@/shared/styles/api-docs.css";
+
+const activeSection = ref<string>(docsSections[0]?.id ?? "");
+
+let observer: IntersectionObserver | null = null;
 
 onMounted(() => {
   document.title = "Wobbly API docs";
   document
     .querySelector('meta[name="description"]')
     ?.setAttribute("content", "Human-readable API docs for Wobbly.");
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          activeSection.value = entry.target.id;
+        }
+      }
+    },
+    { rootMargin: "-20% 0px -70% 0px" },
+  );
+
+  for (const section of docsSections) {
+    const el = document.getElementById(section.id);
+    if (el) observer.observe(el);
+  }
+});
+
+onUnmounted(() => {
+  observer?.disconnect();
 });
 </script>
