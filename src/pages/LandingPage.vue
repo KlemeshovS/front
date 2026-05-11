@@ -11,8 +11,20 @@
           <span class="brand-name">Wobbly</span>
         </a>
         <div class="topbar-actions">
-          <a class="topbar-cta" :href="appStoreUrl" target="_blank" rel="noreferrer">App Store</a>
-          <a class="topbar-cta" :href="googlePlayUrl" target="_blank" rel="noreferrer">Google Play</a>
+          <a
+            class="topbar-cta"
+            :href="appStoreUrl"
+            target="_blank"
+            rel="noreferrer"
+            >App Store</a
+          >
+          <a
+            class="topbar-cta"
+            :href="googlePlayUrl"
+            target="_blank"
+            rel="noreferrer"
+            >Google Play</a
+          >
         </div>
       </header>
 
@@ -23,15 +35,30 @@
           <p class="hero-subtitle">{{ copy.heroBody }}</p>
           <div class="hero-actions">
             <div class="cta-row">
-              <a class="primary-cta" :href="appStoreUrl" target="_blank" rel="noreferrer">
+              <a
+                class="primary-cta"
+                :href="appStoreUrl"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <span class="cta-label">{{ copy.appStoreLabel }}</span>
                 <span class="cta-title">{{ copy.appStoreTitle }}</span>
               </a>
-              <a class="secondary-cta" :href="googlePlayUrl" target="_blank" rel="noreferrer">
+              <a
+                class="secondary-cta"
+                :href="googlePlayUrl"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <span class="cta-label">{{ copy.googlePlayLabel }}</span>
                 <span class="cta-title">{{ copy.googlePlayTitle }}</span>
               </a>
-              <a class="secondary-cta" href="https://t.me/wobbly_app" target="_blank" rel="noreferrer">
+              <a
+                class="secondary-cta"
+                href="https://t.me/wobbly_app"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <span class="cta-label">{{ copy.tgLabel }}</span>
                 <span class="cta-title">{{ copy.tgTitle }}</span>
               </a>
@@ -118,7 +145,9 @@
             :key="item.title"
             class="feature-card glass-card"
           >
-            <div :class="['feature-icon', item.iconClass]">{{ item.emoji }}</div>
+            <div :class="['feature-icon', item.iconClass]">
+              {{ item.emoji }}
+            </div>
             <strong>{{ item.title }}</strong>
             <p>{{ item.body }}</p>
           </article>
@@ -134,15 +163,30 @@
             <p>{{ copy.ctaSectionBody }}</p>
           </div>
           <div class="cta-column">
-            <a class="primary-cta" :href="appStoreUrl" target="_blank" rel="noreferrer">
+            <a
+              class="primary-cta"
+              :href="appStoreUrl"
+              target="_blank"
+              rel="noreferrer"
+            >
               <span class="cta-label">{{ copy.appStoreLabel }}</span>
               <span class="cta-title">{{ copy.appStoreTitle }}</span>
             </a>
-            <a class="secondary-cta" :href="googlePlayUrl" target="_blank" rel="noreferrer">
+            <a
+              class="secondary-cta"
+              :href="googlePlayUrl"
+              target="_blank"
+              rel="noreferrer"
+            >
               <span class="cta-label">{{ copy.googlePlayLabel }}</span>
               <span class="cta-title">{{ copy.googlePlayTitle }}</span>
             </a>
-            <a class="secondary-cta" href="https://t.me/wobbly_app" target="_blank" rel="noreferrer">
+            <a
+              class="secondary-cta"
+              href="https://t.me/wobbly_app"
+              target="_blank"
+              rel="noreferrer"
+            >
               <span class="cta-label">{{ copy.tgLabel }}</span>
               <span class="cta-title">{{ copy.tgTitle }}</span>
             </a>
@@ -259,7 +303,8 @@ const featureCards = computed(() => [
     iconClass: "feature-icon-a",
   },
   {
-    title: locale.value === "ru" ? "Рейтинг и лидерборд" : "Ratings & leaderboard",
+    title:
+      locale.value === "ru" ? "Рейтинг и лидерборд" : "Ratings & leaderboard",
     body:
       locale.value === "ru"
         ? "Топ-100 лучших и антирейтинг. Видно, где ты находишься среди других."

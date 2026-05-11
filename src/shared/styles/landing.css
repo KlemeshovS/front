@@ -45,9 +45,21 @@ body {
     "Segoe UI",
     sans-serif;
   background:
-    radial-gradient(ellipse at 0% 0%, rgba(75, 58, 145, 0.55) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 60%, rgba(75, 58, 145, 0.3) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 100%, rgba(62, 255, 200, 0.06) 0%, transparent 40%),
+    radial-gradient(
+      ellipse at 0% 0%,
+      rgba(75, 58, 145, 0.55) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 100% 60%,
+      rgba(75, 58, 145, 0.3) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(62, 255, 200, 0.06) 0%,
+      transparent 40%
+    ),
     linear-gradient(180deg, #050610 0%, #080a1a 50%, #050610 100%);
   overflow-x: hidden;
 }
@@ -103,8 +115,11 @@ a {
   overflow: clip;
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 36px;
-  background:
-    linear-gradient(180deg, rgba(10, 9, 22, 0.92), rgba(6, 7, 16, 0.97));
+  background: linear-gradient(
+    180deg,
+    rgba(10, 9, 22, 0.92),
+    rgba(6, 7, 16, 0.97)
+  );
   box-shadow:
     var(--shadow),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
@@ -170,7 +185,12 @@ a {
   width: 20px;
   height: 20px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--mint), var(--violet-bright) 55%, var(--rose));
+  background: linear-gradient(
+    135deg,
+    var(--mint),
+    var(--violet-bright) 55%,
+    var(--rose)
+  );
   box-shadow: 0 0 20px rgba(124, 92, 252, 0.5);
 }
 
@@ -190,7 +210,10 @@ a {
   font-size: 13px;
   font-weight: 500;
   text-decoration: none;
-  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .topbar-cta:hover {
@@ -300,7 +323,11 @@ h2 {
   padding: 14px 24px;
   border-radius: 16px;
   border: 1px solid rgba(199, 255, 0, 0.3);
-  background: linear-gradient(135deg, rgba(199, 255, 0, 0.15), rgba(199, 255, 0, 0.06));
+  background: linear-gradient(
+    135deg,
+    rgba(199, 255, 0, 0.15),
+    rgba(199, 255, 0, 0.06)
+  );
   box-shadow:
     0 0 0 1px rgba(199, 255, 0, 0.08),
     0 16px 40px rgba(0, 0, 0, 0.4),
@@ -338,7 +365,11 @@ h2 {
 .primary-cta:hover {
   transform: translateY(-2px);
   border-color: rgba(199, 255, 0, 0.5);
-  background: linear-gradient(135deg, rgba(199, 255, 0, 0.22), rgba(199, 255, 0, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(199, 255, 0, 0.22),
+    rgba(199, 255, 0, 0.1)
+  );
   box-shadow:
     0 0 24px rgba(199, 255, 0, 0.2),
     0 20px 44px rgba(0, 0, 0, 0.4);
@@ -490,8 +521,16 @@ h2 {
   border-radius: 34px;
   padding: 32px 18px 20px;
   background:
-    radial-gradient(ellipse at 80% 0%, rgba(124, 92, 252, 0.5) 0%, transparent 45%),
-    radial-gradient(ellipse at 20% 100%, rgba(75, 58, 145, 0.3) 0%, transparent 40%),
+    radial-gradient(
+      ellipse at 80% 0%,
+      rgba(124, 92, 252, 0.5) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      ellipse at 20% 100%,
+      rgba(75, 58, 145, 0.3) 0%,
+      transparent 40%
+    ),
     linear-gradient(180deg, #0e0e24 0%, #080915 100%);
   overflow: hidden;
 }
@@ -554,20 +593,42 @@ h2 {
 }
 
 .bar-pos {
-  background: linear-gradient(180deg, rgba(62, 255, 200, 0.9), rgba(75, 58, 145, 0.6));
+  background: linear-gradient(
+    180deg,
+    rgba(62, 255, 200, 0.9),
+    rgba(75, 58, 145, 0.6)
+  );
 }
 
 .bar-neg {
-  background: linear-gradient(180deg, rgba(255, 95, 141, 0.85), rgba(75, 58, 145, 0.4));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 95, 141, 0.85),
+    rgba(75, 58, 145, 0.4)
+  );
 }
 
-.bar-1 { height: 28%; }
-.bar-2 { height: 55%; }
-.bar-3 { height: 38%; }
-.bar-4 { height: 80%; }
-.bar-5 { height: 60%; }
-.bar-6 { height: 90%; }
-.bar-7 { height: 72%; }
+.bar-1 {
+  height: 28%;
+}
+.bar-2 {
+  height: 55%;
+}
+.bar-3 {
+  height: 38%;
+}
+.bar-4 {
+  height: 80%;
+}
+.bar-5 {
+  height: 60%;
+}
+.bar-6 {
+  height: 90%;
+}
+.bar-7 {
+  height: 72%;
+}
 
 /* Leaderboard rows inside phone */
 .screen-leaderboard {
@@ -607,7 +668,11 @@ h2 {
 }
 
 .lb-me .lb-avatar {
-  background: linear-gradient(135deg, rgba(199, 255, 0, 0.6), rgba(62, 255, 200, 0.5));
+  background: linear-gradient(
+    135deg,
+    rgba(199, 255, 0, 0.6),
+    rgba(62, 255, 200, 0.5)
+  );
 }
 
 .lb-name {
@@ -667,7 +732,9 @@ h2 {
 .feature-card:hover {
   transform: translateY(-4px);
   border-color: rgba(199, 255, 0, 0.15);
-  box-shadow: 0 28px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(199, 255, 0, 0.08);
+  box-shadow:
+    0 28px 50px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(199, 255, 0, 0.08);
 }
 
 .feature-icon {
@@ -681,17 +748,29 @@ h2 {
 }
 
 .feature-icon-a {
-  background: linear-gradient(135deg, rgba(199, 255, 0, 0.2), rgba(62, 255, 200, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(199, 255, 0, 0.2),
+    rgba(62, 255, 200, 0.15)
+  );
   border: 1px solid rgba(199, 255, 0, 0.15);
 }
 
 .feature-icon-b {
-  background: linear-gradient(135deg, rgba(124, 92, 252, 0.25), rgba(75, 58, 145, 0.2));
+  background: linear-gradient(
+    135deg,
+    rgba(124, 92, 252, 0.25),
+    rgba(75, 58, 145, 0.2)
+  );
   border: 1px solid rgba(124, 92, 252, 0.2);
 }
 
 .feature-icon-c {
-  background: linear-gradient(135deg, rgba(62, 255, 200, 0.2), rgba(124, 92, 252, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(62, 255, 200, 0.2),
+    rgba(124, 92, 252, 0.15)
+  );
   border: 1px solid rgba(62, 255, 200, 0.15);
 }
 
@@ -717,7 +796,11 @@ h2 {
   align-items: center;
   padding: 32px;
   border-radius: 28px;
-  background: linear-gradient(135deg, rgba(75, 58, 145, 0.25), rgba(18, 16, 40, 0.5));
+  background: linear-gradient(
+    135deg,
+    rgba(75, 58, 145, 0.25),
+    rgba(18, 16, 40, 0.5)
+  );
   border: 1px solid rgba(199, 255, 0, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
@@ -789,18 +872,32 @@ h2 {
 
 /* Keyframes */
 @keyframes floatPhone {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes floatCard {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation: none !important;
     transition: none !important;
   }
