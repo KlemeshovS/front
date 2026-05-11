@@ -12,21 +12,19 @@
         </a>
         <div class="topbar-actions">
           <a
-            class="store-link"
+            class="topbar-cta"
             :href="appStoreUrl"
             target="_blank"
             rel="noreferrer"
+            >App Store</a
           >
-            {{ copy.navAppStore }}
-          </a>
           <a
-            class="store-link"
+            class="topbar-cta"
             :href="googlePlayUrl"
             target="_blank"
             rel="noreferrer"
+            >Google Play</a
           >
-            {{ copy.navGooglePlay }}
-          </a>
         </div>
       </header>
 
@@ -70,44 +68,72 @@
         </div>
 
         <div class="hero-visual" aria-hidden="true">
-          <div class="floating-card floating-card-top">
-            <strong>{{ copy.feature1Title }}</strong>
-            <span>{{ copy.feature1Body }}</span>
+          <!-- Floating cards -->
+          <div class="floating-card floating-card-top glass-card">
+            <span class="floating-card-accent">+24</span>
+            <strong>{{ copy.card1Title }}</strong>
+            <span>{{ copy.card1Body }}</span>
           </div>
-          <div class="floating-card floating-card-middle">
-            <strong>{{ copy.feature2Title }}</strong>
-            <span>{{ copy.feature2Body }}</span>
+
+          <div class="floating-card floating-card-middle glass-card">
+            <strong>{{ copy.card2Title }}</strong>
+            <span>{{ copy.card2Body }}</span>
           </div>
-          <div class="floating-card floating-card-bottom">
-            <strong>{{ copy.feature3Title }}</strong>
-            <span>{{ copy.feature3Body }}</span>
+
+          <div class="floating-card floating-card-bottom glass-card">
+            <strong>{{ copy.card3Title }}</strong>
+            <span>{{ copy.card3Body }}</span>
           </div>
+
+          <!-- Phone mockup -->
           <div class="phone phone-main">
             <div class="phone-screen">
               <div class="screen-top">
                 <span class="screen-date">{{ copy.screenDate }}</span>
                 <span class="screen-pill">{{ copy.screenLabel }}</span>
               </div>
+
               <div class="screen-score">
                 <strong>{{ copy.screenNumber }}</strong>
                 <span>{{ copy.screenNumberLabel }}</span>
               </div>
+
               <div class="screen-chart">
-                <span
-                  v-for="index in 7"
-                  :key="index"
-                  :class="`bar bar-${index}`"
-                ></span>
+                <span class="bar bar-pos bar-1"></span>
+                <span class="bar bar-neg bar-2"></span>
+                <span class="bar bar-pos bar-3"></span>
+                <span class="bar bar-pos bar-4"></span>
+                <span class="bar bar-neg bar-5"></span>
+                <span class="bar bar-pos bar-6"></span>
+                <span class="bar bar-pos bar-7"></span>
               </div>
-              <div class="screen-card">
-                <strong>{{ copy.screenCardTitle }}</strong>
-                <span>{{ copy.screenCardBody }}</span>
+
+              <div class="screen-leaderboard">
+                <div class="lb-row">
+                  <span class="lb-pos">1.</span>
+                  <span class="lb-avatar"></span>
+                  <span class="lb-name">alex_k</span>
+                  <span class="lb-score">+147</span>
+                </div>
+                <div class="lb-row">
+                  <span class="lb-pos">2.</span>
+                  <span class="lb-avatar"></span>
+                  <span class="lb-name">marina</span>
+                  <span class="lb-score">+118</span>
+                </div>
+                <div class="lb-row lb-me">
+                  <span class="lb-pos">3.</span>
+                  <span class="lb-avatar"></span>
+                  <span class="lb-name">{{ copy.screenMe }}</span>
+                  <span class="lb-score">+{{ copy.screenNumber }}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- Features -->
       <section class="section">
         <div class="section-heading">
           <span class="section-kicker">{{ copy.featuresKicker }}</span>
@@ -119,46 +145,52 @@
             :key="item.title"
             class="feature-card glass-card"
           >
+            <div :class="['feature-icon', item.iconClass]">
+              {{ item.emoji }}
+            </div>
             <strong>{{ item.title }}</strong>
             <p>{{ item.body }}</p>
           </article>
         </div>
       </section>
 
+      <!-- CTA bottom -->
       <section class="section cta-section">
-        <div class="section-heading">
-          <span class="section-kicker">{{ copy.ctaKicker }}</span>
-          <h2>{{ copy.ctaSectionTitle }}</h2>
-          <p>{{ copy.ctaSectionBody }}</p>
-        </div>
-        <div class="cta-row">
-          <a
-            class="primary-cta"
-            :href="appStoreUrl"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span class="cta-label">{{ copy.appStoreLabel }}</span>
-            <span class="cta-title">{{ copy.appStoreTitle }}</span>
-          </a>
-          <a
-            class="secondary-cta"
-            :href="googlePlayUrl"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span class="cta-label">{{ copy.googlePlayLabel }}</span>
-            <span class="cta-title">{{ copy.googlePlayTitle }}</span>
-          </a>
-          <a
-            class="secondary-cta"
-            href="https://t.me/wobbly_app"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span class="cta-label">{{ copy.tgLabel }}</span>
-            <span class="cta-title">{{ copy.tgTitle }}</span>
-          </a>
+        <div class="cta-panel glass-card">
+          <div class="cta-panel-copy">
+            <span class="section-kicker">{{ copy.ctaKicker }}</span>
+            <h2>{{ copy.ctaSectionTitle }}</h2>
+            <p>{{ copy.ctaSectionBody }}</p>
+          </div>
+          <div class="cta-column">
+            <a
+              class="primary-cta"
+              :href="appStoreUrl"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="cta-label">{{ copy.appStoreLabel }}</span>
+              <span class="cta-title">{{ copy.appStoreTitle }}</span>
+            </a>
+            <a
+              class="secondary-cta"
+              :href="googlePlayUrl"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="cta-label">{{ copy.googlePlayLabel }}</span>
+              <span class="cta-title">{{ copy.googlePlayTitle }}</span>
+            </a>
+            <a
+              class="secondary-cta"
+              href="https://t.me/wobbly_app"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="cta-label">{{ copy.tgLabel }}</span>
+              <span class="cta-title">{{ copy.tgTitle }}</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -187,116 +219,119 @@ const locale = computed(() => {
 
 const copyMap = {
   ru: {
-    title: "Wobbly — минималистичный трекер трезвости",
+    title: "Wobbly — трекер трезвости и привычек для iPhone и Android",
     description:
-      "Wobbly — честное зеркало твоего образа жизни: отмечай дни, смотри на цифры и не ври себе про прогресс.",
-    navAppStore: "App Store",
-    navGooglePlay: "Google Play",
-    eyebrow: "Дерзкий sobriety tracker",
-    heroTitle: "Честно отмечай дни. Смотри, кто ты на деле.",
+      "Wobbly — трекер трезвости с рейтингами и лидербордом. Отмечай дни, следи за прогрессом, соревнуйся с другими. Бесплатно для iOS и Android.",
+    eyebrow: "Трекер трезвости",
+    heroTitle: "Честный счёт. Без лишних слов.",
     heroBody:
-      "Wobbly — не просто трекер. Это честное зеркало твоего образа жизни: пил, тренировался или и то и другое. Цифры все запомнят.",
-    appStoreLabel: "Available on iPhone",
-    appStoreTitle: "Download on App Store",
-    googlePlayLabel: "Available on Android",
-    googlePlayTitle: "Get it on Google Play",
-    tgLabel: "Join the channel",
+      "Wobbly считает твои дни и показывает реальную картину. Рейтинг среди пользователей, личный прогресс, никакой морали.",
+    appStoreLabel: "Доступно на iPhone",
+    appStoreTitle: "App Store",
+    googlePlayLabel: "Доступно на Android",
+    googlePlayTitle: "Google Play",
+    tgLabel: "Подписаться",
     tgTitle: "@wobbly_app",
-    heroNote: "Для iPhone и Android. Без морали. Цифры не врут.",
-    feature1Title: "Быстрые отметки",
-    feature1Body: "Отметь день за пару секунд.",
-    feature2Title: "Понятная динамика",
-    feature2Body: "Сразу видно, где держится ритм.",
-    feature3Title: "Цифры не врут",
-    feature3Body: "Никакой морали, только факты.",
+    heroNote: "Бесплатно. Для iPhone и Android.",
+    card1Title: "Счёт растёт",
+    card1Body: "Каждый день в фокусе добавляет очки.",
+    card2Title: "Топ-100",
+    card2Body: "Рейтинг среди всех пользователей.",
+    card3Title: "Цифры не врут",
+    card3Body: "Статистика не приукрашивает.",
     screenDate: "Сегодня",
-    screenLabel: "straight mode",
-    screenNumber: "24",
-    screenNumberLabel: "дня в фокусе",
-    screenCardTitle: "Ритм держится",
-    screenCardBody: "Если начнешь съезжать, это будет видно сразу.",
+    screenLabel: "в фокусе",
+    screenNumber: "87",
+    screenNumberLabel: "дней подряд",
+    screenMe: "ты",
     featuresKicker: "Почему Wobbly",
-    featuresTitle: "Коротко. Жестко. По делу.",
-    feature1BodyLong: "Отмечай день за пару секунд. Без форм и лишней возни.",
-    feature2BodyLong:
-      "Сразу видно, где держится ритм, а где тебя уже уверенно ведет в сторону.",
-    feature3BodyLong:
-      "Никаких мягких формулировок. Если статистика плохая, приложение не будет притворяться, что это просто этап роста.",
-    ctaKicker: "Ready to start",
-    ctaSectionTitle: "Начни отмечать сегодня.",
+    featuresTitle: "Коротко. Жёстко. По делу.",
+    ctaKicker: "Начни сейчас",
+    ctaSectionTitle: "Скачай и начни считать.",
     ctaSectionBody:
-      "Скачай Wobbly или залетай в Telegram. В обоих местах тебе не будут читать мораль.",
+      "Wobbly бесплатно. Работает на iOS и Android. В Telegram — канал без лишнего шума.",
     footerPrivacy: "Privacy Policy",
-    footerContact: "Contact",
+    footerContact: "Контакты",
   },
   en: {
-    title: "Wobbly — minimal sobriety tracker",
+    title: "Wobbly — sobriety tracker app for iPhone and Android",
     description:
-      "Wobbly is an honest mirror for your habits: log the day, look at the numbers, and see where your real pattern is going.",
-    navAppStore: "App Store",
-    navGooglePlay: "Google Play",
-    eyebrow: "Sharp sobriety tracker",
-    heroTitle: "Log the day honestly. See who you really are.",
+      "Wobbly is a free sobriety tracker with leaderboards and ratings. Log your days, track progress, compete with others. Available on iOS and Android.",
+    eyebrow: "Sobriety tracker",
+    heroTitle: "Honest score. No lectures.",
     heroBody:
-      "Wobbly is not just a tracker. It is an honest mirror for your habits: drinking, training, or both. The numbers remember everything.",
+      "Wobbly counts your days and shows the real picture. Ratings among users, personal progress, zero moralizing.",
     appStoreLabel: "Available on iPhone",
-    appStoreTitle: "Download on App Store",
+    appStoreTitle: "App Store",
     googlePlayLabel: "Available on Android",
-    googlePlayTitle: "Get it on Google Play",
-    tgLabel: "Follow on Telegram",
+    googlePlayTitle: "Google Play",
+    tgLabel: "Follow us",
     tgTitle: "@wobbly_app",
-    heroNote: "Built for iPhone and Android. No lectures. Numbers do not lie.",
-    feature1Title: "Quick check-ins",
-    feature1Body: "Log the day in seconds.",
-    feature2Title: "Clear momentum",
-    feature2Body: "See where your rhythm holds.",
-    feature3Title: "Numbers do not lie",
-    feature3Body: "No lectures, just facts.",
+    heroNote: "Free. For iPhone and Android.",
+    card1Title: "Score grows",
+    card1Body: "Every day in focus adds points.",
+    card2Title: "Top-100",
+    card2Body: "Global leaderboard ranking.",
+    card3Title: "Numbers don't lie",
+    card3Body: "Stats don't sugarcoat anything.",
     screenDate: "Today",
-    screenLabel: "straight mode",
-    screenNumber: "24",
-    screenNumberLabel: "days in focus",
-    screenCardTitle: "Rhythm looks steady",
-    screenCardBody: "If you start slipping, it shows up right away.",
+    screenLabel: "in focus",
+    screenNumber: "87",
+    screenNumberLabel: "days in a row",
+    screenMe: "you",
     featuresKicker: "Why Wobbly",
     featuresTitle: "Short. Sharp. Honest.",
-    feature1BodyLong: "Log the day in seconds. No forms and no tracker bloat.",
-    feature2BodyLong:
-      "See where the rhythm holds and where it is already drifting off.",
-    feature3BodyLong:
-      "No soft language. If the stats look bad, the app will not pretend you are just going through a phase.",
-    ctaKicker: "Ready to start",
-    ctaSectionTitle: "Start tracking today.",
+    ctaKicker: "Get started",
+    ctaSectionTitle: "Download and start counting.",
     ctaSectionBody:
-      "Download Wobbly or jump into Telegram. No lectures in either place.",
+      "Wobbly is free. Works on iOS and Android. Telegram channel — no noise.",
     footerPrivacy: "Privacy Policy",
     footerContact: "Contact",
   },
 } as const;
 
 const copy = computed(() => copyMap[locale.value]);
+
 const featureCards = computed(() => [
-  { title: copy.value.feature1Title, body: copy.value.feature1BodyLong },
-  { title: copy.value.feature2Title, body: copy.value.feature2BodyLong },
-  { title: copy.value.feature3Title, body: copy.value.feature3BodyLong },
+  {
+    title: locale.value === "ru" ? "Быстрые отметки" : "Quick check-ins",
+    body:
+      locale.value === "ru"
+        ? "Отметь день за секунду. Без форм, без лишних шагов."
+        : "Log the day in one tap. No forms, no friction.",
+    emoji: "⚡",
+    iconClass: "feature-icon-a",
+  },
+  {
+    title:
+      locale.value === "ru" ? "Рейтинг и лидерборд" : "Ratings & leaderboard",
+    body:
+      locale.value === "ru"
+        ? "Топ-100 лучших и антирейтинг. Видно, где ты находишься среди других."
+        : "Top-100 and bottom rankings. See exactly where you stand.",
+    emoji: "🏆",
+    iconClass: "feature-icon-b",
+  },
+  {
+    title: locale.value === "ru" ? "Никакой морали" : "No lectures",
+    body:
+      locale.value === "ru"
+        ? "Если статистика плохая — приложение не притворяется, что это норма."
+        : "If the stats look bad, the app won't pretend you're just going through a phase.",
+    emoji: "📊",
+    iconClass: "feature-icon-c",
+  },
 ]);
 
 onMounted(() => {
   document.title = copy.value.title;
-  document
-    .querySelector('meta[name="description"]')
-    ?.setAttribute("content", copy.value.description);
-  document
-    .querySelector('meta[property="og:title"]')
-    ?.setAttribute("content", copy.value.title);
-  document
-    .querySelector('meta[property="og:description"]')
-    ?.setAttribute("content", copy.value.description);
-  document
-    .querySelector('meta[name="twitter:title"]')
-    ?.setAttribute("content", copy.value.title);
-  document
-    .querySelector('meta[name="twitter:description"]')
-    ?.setAttribute("content", copy.value.description);
+  const setMeta = (sel: string, val: string) =>
+    document.querySelector(sel)?.setAttribute("content", val);
+
+  setMeta('meta[name="description"]', copy.value.description);
+  setMeta('meta[property="og:title"]', copy.value.title);
+  setMeta('meta[property="og:description"]', copy.value.description);
+  setMeta('meta[name="twitter:title"]', copy.value.title);
+  setMeta('meta[name="twitter:description"]', copy.value.description);
 });
 </script>

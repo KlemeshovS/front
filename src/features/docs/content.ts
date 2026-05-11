@@ -40,6 +40,22 @@ const sBase: DocsSection = {
   ],
 };
 
+const sLegacyApi: DocsSection = {
+  id: "legacy-api",
+  title: "⚠ Legacy API (без /v1)",
+  cards: [
+    {
+      paragraphs: [
+        "До введения версионирования все endpoint'ы были доступны без префикса /api/v1 — например, /api/auth/anonymous, /api/me/score и т.д.",
+        "Эти маршруты до сих пор работают на продакшене ради обратной совместимости со старыми версиями приложения.",
+        "Как только пользователи обновят приложение до версии, использующей /api/v1, legacy routes нужно будет удалить из backend.",
+      ],
+      muted:
+        "Следить за adoption v1: когда доля запросов на unversioned routes упадёт до нуля — удалять. Не добавлять новую функциональность в legacy routes.",
+    },
+  ],
+};
+
 const sFlow: DocsSection = {
   id: "flow",
   title: "Интеграционный Flow",
@@ -656,6 +672,7 @@ export const docsPages: DocsPage[] = [
     title: "Overview",
     sections: [
       sBase,
+      sLegacyApi,
       sFlow,
       sRequestHeaders,
       sVersioning,
