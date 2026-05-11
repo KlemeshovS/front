@@ -1,9 +1,6 @@
 name: Front Staging Verify and Deploy
 
 on:
-  pull_request:
-    branches:
-      - develop
   push:
     branches:
       - develop
