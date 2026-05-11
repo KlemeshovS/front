@@ -1,0 +1,42 @@
+name: Front PR Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run typecheck
+        run: ./scripts/typecheck.sh
+
+      - name: Run lint
+        run: ./scripts/lint.sh
+
+      - name: Run format check
+        run: ./scripts/format_check.sh
+
+      - name: Run frontend tests
+        run: ./scripts/test.sh
+
+      - name: Run frontend build
+        run: npm run build
