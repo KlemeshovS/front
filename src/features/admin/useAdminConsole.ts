@@ -19,7 +19,8 @@ type UserSortField =
   | "participateInRating"
   | "accountStatus"
   | "createdAt"
-  | "updatedAt";
+  | "updatedAt"
+  | "lastSeenAt";
 type SortDirection = "asc" | "desc";
 
 function createStatus(): StatusState {
@@ -151,7 +152,11 @@ export function useAdminConsole() {
         );
       }
 
-      if (field === "createdAt" || field === "updatedAt") {
+      if (
+        field === "createdAt" ||
+        field === "updatedAt" ||
+        field === "lastSeenAt"
+      ) {
         return (
           (new Date(left[field]).getTime() - new Date(right[field]).getTime()) *
           direction

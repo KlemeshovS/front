@@ -266,12 +266,24 @@
                         }}</span>
                       </button>
                     </th>
+                    <th>
+                      <button
+                        class="sort-button"
+                        type="button"
+                        @click="consoleState.toggleUserSort('lastSeenAt')"
+                      >
+                        Last seen
+                        <span>{{
+                          consoleState.userSortMarker("lastSeenAt")
+                        }}</span>
+                      </button>
+                    </th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-if="!consoleState.sortedUsers.length">
-                    <td colspan="8">Нет пользователей</td>
+                    <td colspan="9">Нет пользователей</td>
                   </tr>
                   <tr
                     v-for="user in consoleState.sortedUsers"
@@ -286,6 +298,7 @@
                     <td>{{ consoleState.authStatusLabel(user) }}</td>
                     <td>{{ consoleState.formatDate(user.createdAt) }}</td>
                     <td>{{ consoleState.formatDate(user.updatedAt) }}</td>
+                    <td>{{ consoleState.formatDate(user.lastSeenAt) }}</td>
                     <td class="actions-cell" @click.stop>
                       <div class="user-actions">
                         <ActionMenuButton
