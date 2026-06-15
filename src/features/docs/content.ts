@@ -590,7 +590,7 @@ const sLeaderboard: DocsSection = {
       path: "/api/v1/leaderboard/top?limit=100",
       paragraphs: [
         "Возвращает только пользователей с score >= 0.",
-        "В leaderboard попадают только пользователи с непустым username, включённым рейтингом и lastSeenAt не старше 30 дней.",
+        "В leaderboard попадают только пользователи с непустым username, включённым рейтингом и updatedAt не старше 30 дней.",
       ],
       response: `{
   "items": [
